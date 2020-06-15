@@ -34,7 +34,9 @@
                  <img class="search" src="../assets/search.png" alt="">
              </button>
          </div>
+         <p class="error-message" v-if="noSearch.length!=0">{{noSearch}}</p>
       </div>
+      
       <div class="rezultati">
           <div class="srch-rez" v-for="(igrica,index) in searchIgrice" :key="index">
               <div class="res-inside">
@@ -89,6 +91,7 @@ export default {
             } else {
                 this.axios.get(`https://api.rawg.io/api/games?search=${this.novisearch}`).then(response => {
                 console.log(response.data)
+                this.noSearch = ''
                 this.searchIgrice=response.data.results
                 this.choosenSort = 'Sort by'
                 this.choosenPlat = 'Platform'
@@ -142,7 +145,6 @@ export default {
             } else {
                 this.gen = `&genres=${this.choosenGenre.toLowerCase()}`
             }
-            console.log(this.gen)
 
             if( this.choosenPlat == 'Platform') {
                 this.plat = ''
@@ -190,8 +192,9 @@ export default {
         display:flex;
         justify-content: space-evenly;
         background:black;
-        padding-bottom:20px;
-        border-bottom:2px solid #CA3E47
+        padding-bottom:30px;
+        border-bottom:2px solid #CA3E47;
+        position:relative;
     }
 
     .input-field {
@@ -351,6 +354,15 @@ export default {
 }
 .params-btn, .srch-btn:hover {
     cursor:pointer;
+}
+.error-message {
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    color:#CA3E47;
+    font-weight: bold;
+    font-size:14px
 }
 
 @media only screen and (max-width: 1024px) {
